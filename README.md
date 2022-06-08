@@ -7,3 +7,4 @@
 * Need to add freelancers and employees
 * Change day functionality added
 
+:mortar_board: Nataliasw :mortar_board: 2022
