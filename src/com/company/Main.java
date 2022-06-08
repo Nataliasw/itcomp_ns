@@ -1,30 +1,39 @@
 package com.company;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws ParseException {
         //new SimpleDateFormat("dd/MM/yyyy").parse("01/30/2020")
-    DateCalendar date = new DateCalendar();
-    date.getDayOfWeek();
-    date.changeDate();
-    Project p1 = new Project("ProjectX","Azurro",120.0,1000.0,30);
-    p1.addTimeToParts(2,3,0,0,0,0);
-    System.out.println(p1.getTimeRequired());
+        DateCalendar date = new DateCalendar();
+        date.getDayOfWeek();
+
+        //date.changeDate();
+//Projects generator
+        ProjectGenerator projects = new ProjectGenerator();
+        projects.getAllProjects();
+        projects.generateStartingProjects();
+//Create our Player
+        Player player = new Player();
 
 
-    for(int i =0; i < 5; i++){
-        System.out.println("Welcome to IT company game. Today is " +". What do you want to do today?");
-        Scanner myObj = new Scanner(System.in);
-        String[] activities = {"contract","customerseeking","programming","testing","giveProjectToCust",
-        "hireEmp","layOffEmp","zus"};
+//Game on!
+        while (player.money <= 2500.0) {
 
-        String activity = myObj.nextLine();
-    }
+            Scanner myObj = new Scanner(System.in);
+            System.out.println("Welcome to IT company game. Today is " + date.getDate() + ". What do you want to do today?");
+            player.whatToDo();
+
+            String activity = myObj.nextLine();
+            if (activity.equals("2")) {
+                player.customerSeeking(projects);
+            }
+            player.money += 1000.0;
+        }
+
+//GARBAGE
 
 //        1podpisać umowę na realizację jednego z dostępnych projektów
 //        2przeznaczyć dzień na szukanie klientów (każde 5 dni to jeden nowy dostępny projekt)
@@ -35,7 +44,7 @@ public class Main {
 //        7zwolnić pracownika
 //        8przeznaczyć dzień na rozliczenia z urzędami (jeśli nie poświęcisz na to 2 dni w miesiącu ZUS wjeżdża z taką kontrolą, że zamykasz firmę z długami)
 
-
-
+// String[] activities = {"contract","customerseeking","programming","testing","giveProjectToCust",
+//    "hireEmp","layOffEmp","zus"};
     }
 }
