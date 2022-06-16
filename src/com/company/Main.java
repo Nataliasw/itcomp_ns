@@ -1,40 +1,35 @@
 package com.company;
 
+import com.company.employees.Employee;
+
 import java.text.ParseException;
 
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) throws ParseException, InterruptedException {
         //new SimpleDateFormat("dd/MM/yyyy").parse("01/30/2020")
-        DateCalendar date = new DateCalendar();
-        date.getDayOfWeek();
+//ItGame game = new ItGame();
 
-        //date.changeDate();
-//Projects generator
-        ProjectGenerator projects = new ProjectGenerator();
-        projects.getAllProjects();
-        projects.generateStartingProjects();
-//Create our Player
-        Player player = new Player();
+      //game.startGame();
 
-
-//Game on!
-        while (player.money <= 2500.0) {
-
-            Scanner myObj = new Scanner(System.in);
-            System.out.println("Welcome to IT company game. Today is " + date.getDate() + ". What do you want to do today?");
-            player.whatToDo();
-
-            String activity = myObj.nextLine();
-            if (activity.equals("2")) {
-                player.customerSeeking(projects);
-            }
-            player.money += 1000.0;
-        }
 
 //GARBAGE
-
+//        DateCalendar date = new DateCalendar();
+//        Date newda = new Date();
+//
+//        Project pro = new Project(12,"CarbonerroXXL","Azurro",4000.0,40000.0,"hard",55);
+//
+//        long diffInMillies = Math.abs(newda.getTime() - date.getDate().getTime());
+//        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+//        System.out.println(diff);
+//        DateCalendar date = new DateCalendar();
+//        Project pro = new Project(12,"CarbonerroXXL","Azurro",4000.0,40000.0,15,"hard",55);
+//        pro.setReturnDate(date);
+//        System.out.println(pro.returnDate);
 //        1podpisać umowę na realizację jednego z dostępnych projektów
 //        2przeznaczyć dzień na szukanie klientów (każde 5 dni to jeden nowy dostępny projekt)
 //        3przeznaczyć dzień na programowanie

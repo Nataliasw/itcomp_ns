@@ -13,62 +13,100 @@ public class Project {
     public Double penalty;
     public Double value;
     public int daysToPay;
-    public boolean isObtainedByEmployee;
+    public boolean willReceiveMoney;
     public String level;
+    public int daysSpentTesting;
+    public boolean isFinished;
+    public boolean isAssigned;
+    public int timeRemaining;
+    public int daysAggreedToFinish;
 
-    public Project(int projectNumber,String name,
-                   String companyName, Double penalty, Double value, int daysToPay, String level) {
+    public Project(int projectNumber, String name,
+                   String companyName, Double penalty, Double value, String level, int daysAggreedToFinish) {
         this.projectNumber = projectNumber;
         this.name = name;
         this.companyName = companyName;
         this.level = level;
         this.penalty = penalty;
         this.value = value;
-        this.daysToPay = daysToPay;
-        this.timePerProjectPart  = new HashMap<>();
+        this.isFinished = false;
+        this.timePerProjectPart = new HashMap<>();
+        this.isAssigned = false;
+        this.daysSpentTesting = 0;
+        this.daysAggreedToFinish = daysAggreedToFinish;
+
+
     }
 
     @Override
     public String toString() {
         return "Project{" +
-                "name='" + name + '\'' +
-                ", timePerProjectPart=" + timePerProjectPart +
-                ", companyName='" + companyName + '\'' +
+                "name='" + name + '\'' + "\n" +
+                ", timePerProjectPart=" + timePerProjectPart + "\n" +
+                ", companyName='" + companyName + '\'' + "\n" +
                 ", returnDate=" + returnDate +
                 ", penalty=" + penalty +
                 ", value=" + value +
                 ", daysToPay=" + daysToPay +
-                ", isObtainedByEmployee=" + isObtainedByEmployee +
+
                 ", level='" + level + '\'' +
                 '}';
     }
 
-    public void addTimeToParts(int front, int back, int db, int mobile, int wp, int presta){
-            timePerProjectPart.clear();
-            timePerProjectPart.put("frontend", front);
-            timePerProjectPart.put("backend",back);
-            timePerProjectPart.put("db", db);
-            timePerProjectPart.put("mobile",mobile);
-            timePerProjectPart.put("wordpress", wp);
-            timePerProjectPart.put("prestashop", presta);
-           // System.out.println("Time added successfully.");
+    public String getCompleteness() {
+        String complete = " ";
+        if (!isAssigned) {
+            return "This project is not assigned to your company.";
+        }
+        if (timeRemaining == getTimeRequired()) {
+            return " 0% | You need to work on this project for " + timeRemaining + " more days yet.";
+        }
+        if(timeRemaining ==0){
+            return "100% | Your project is finished!";
+        }
+        else {
+            double time = timeRemaining;
+            String percentage =  Double.toString(time/getTimeRequired() *100);
+
+
+            return percentage + " | You need to work on this project for " + timeRemaining + " more days yet.";
         }
 
-        public int getTimeRequired(){
+
+    }
+
+    ;
+
+
+    public void addTimeToParts(int front, int back, int db, int mobile, int wp, int presta) {
+        timePerProjectPart.clear();
+        timePerProjectPart.put("frontend", front);
+        timePerProjectPart.put("backend", back);
+        timePerProjectPart.put("db", db);
+        timePerProjectPart.put("mobile", mobile);
+        timePerProjectPart.put("wordpress", wp);
+        timePerProjectPart.put("prestashop", presta);
+        // System.out.println("Time added successfully.");
+    }
+
+    public int getTimeRequired() {
         int timeReq = 0;
-            for(String s: timePerProjectPart.keySet()){
-                timeReq += timePerProjectPart.get(s);
-            }
-            return timeReq;
+        for (String s : timePerProjectPart.keySet()) {
+            timeReq += timePerProjectPart.get(s);
         }
-        public void setReturnDate(DateCalendar dateCalendar){
-            int days = this.getTimeRequired();
-            Date today = dateCalendar.getDate();
-            Calendar temp = Calendar.getInstance();
-            temp.setTime(today);
-            temp.add(Calendar.DATE,days);
-            this.returnDate = temp.getTime();
+        return timeReq;
+    }
 
-        }
+    public void setReturnDate(DateCalendar dateCalendar) {
+        int days = this.daysAggreedToFinish;
+        Date today = dateCalendar.getDate();
+        Calendar temp = Calendar.getInstance();
+        temp.setTime(today);
+        temp.add(Calendar.DATE, days);
+        this.returnDate = temp.getTime();
+
+    }
+
+
 
 }
