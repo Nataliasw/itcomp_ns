@@ -25,9 +25,10 @@ public class DateCalendar {
 
     }
 
-    public void getDayOfWeek() {
+    public int getDayOfWeek() {
         int day = dateCalendar.get(Calendar.DAY_OF_WEEK);
-        System.out.println(day);
+
+        return day;
     }
     public void changeDate(){
         dateCalendar.add(Calendar.DATE, 1);

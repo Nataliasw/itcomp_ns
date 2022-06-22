@@ -91,7 +91,7 @@ public class ProjectGenerator {
             Project projectToAdd = projectListAll.get(int_random);
             if(projectToAdd.level.equals("medium") || projectToAdd.level.equals("easy")) {
                 projectListCurrent.add(projectToAdd);
-                projectToAdd.projectNumber = projectListCurrent.size() + 1;
+                projectToAdd.projectNumber = projectListCurrent.size() ;
 
             }
         }
@@ -101,31 +101,38 @@ public class ProjectGenerator {
     public void addProjectToList(){
         Random rand = new Random();
         int upperbound = 12;
-        int int_random = rand.nextInt(upperbound);
-        Project project = projectListAll.get(int_random);
+
         boolean isAdded = false;
-        while(!isAdded) if (!projectListCurrent.contains(project)) {
-            projectListCurrent.add(project);
-            project.projectNumber = projectListCurrent.size() +1;
-            isAdded = true;
-            System.out.println("New Project added to available projects list.");
+        while(!isAdded) {
+            int int_random = rand.nextInt(upperbound);
+            Project project = projectListAll.get(int_random);
+
+            if (!projectListCurrent.contains(project)) {
+                projectListCurrent.add(project);
+                project.projectNumber = projectListCurrent.size() ;
+                isAdded = true;
+                System.out.println("New Project added to available projects list.");
+            }
+
         }
-
-
     }
     public void addProjectToList(Sales sale){
         Random rand = new Random();
         int upperbound = 12;
-        int int_random = rand.nextInt(upperbound);
-        Project project = projectListAll.get(int_random);
+
         boolean isAdded = false;
-        while(!isAdded) if (!projectListCurrent.contains(project)) {
-            projectListCurrent.add(project);
-            sale.listOfProjectsFound.add(project);
-            isAdded = true;
-            System.out.println("New Project added to available projects list.");
+        while(!isAdded) {
+            int int_random = rand.nextInt(upperbound);
+            Project project = projectListAll.get(int_random);
+
+            if (!projectListCurrent.contains(project)) {
+                projectListCurrent.add(project);
+                sale.listOfProjectsFound.add(project);
+                project.projectNumber = projectListCurrent.size() + 1;
+                isAdded = true;
+                System.out.println("New Project added to available projects list.");
+            }
+
         }
-
-
     }
 }

@@ -9,6 +9,8 @@ public class Freelancer extends Employee {
     public String name;
     public LinkedList<String> skills;
     public String freelancerType;
+    public boolean alreadyWorkedToday;
+    public int daysWorked;
 
 
 
@@ -16,10 +18,9 @@ public class Freelancer extends Employee {
         super(typeOfEmployee, salary);
         this.freelancerType = freelancerType;
         this.name = name;
+        this.alreadyWorkedToday = false;
 
     }
-    @Override
-    public void customerSeeking(ProjectGenerator projects) {
 
-    }
 }
+

@@ -4,20 +4,23 @@ import com.company.ProjectGenerator;
 
 import java.util.LinkedList;
 
-public abstract class Employee {
+public class Employee {
     public String typeOfEmployee;
     public Double salary;
     public boolean isEmployed;
     public LinkedList<String> skills;
+    public int daysEmployeeIsEmployed;
 
     public Employee(String typeOfEmployee, Double salary) {
         this.typeOfEmployee = typeOfEmployee;
         this.salary = salary;
         this.isEmployed = false;
+
+
     }
 
     public void generateSkills(){
-        if(typeOfEmployee.equals("freelancer") || typeOfEmployee.equals("programmer")) {
+        if(typeOfEmployee.equals("Freelancer") || typeOfEmployee.equals("Programmer")) {
             String[] skillsPack = {"frontend", "backend", "db", "mobile", "wordpress", "prestashop"};
             this.skills = new LinkedList<String>();
             while (skills.size() < 4) {
@@ -57,6 +60,12 @@ public abstract class Employee {
 
     }
 
-    public abstract void customerSeeking(ProjectGenerator projects);
+    public void customerSeeking(ProjectGenerator projects){
+
+    };
+
+    public void updateEmployedDays(){
+        this.daysEmployeeIsEmployed += 1;
+    }
 
 }

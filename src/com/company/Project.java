@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class Project {
     public int projectNumber;
     public String name;
-    private final HashMap<String, Integer> timePerProjectPart;
+    public HashMap<String, Integer> timePerProjectPart;
     public String companyName;
     public Date returnDate;
     public Double penalty;
@@ -41,16 +41,22 @@ public class Project {
     @Override
     public String toString() {
         return "Project{" +
-                "name='" + name + '\'' + "\n" +
-                ", timePerProjectPart=" + timePerProjectPart + "\n" +
-                ", companyName='" + companyName + '\'' + "\n" +
+                "projectNumber=" + projectNumber +
+                ", name='" + name + '\'' +
+                ", timePerProjectPart=" + timePerProjectPart +
+                ", companyName='" + companyName + '\'' +
                 ", returnDate=" + returnDate +
                 ", penalty=" + penalty +
                 ", value=" + value +
                 ", daysToPay=" + daysToPay +
-
+                ", willReceiveMoney=" + willReceiveMoney +
                 ", level='" + level + '\'' +
-                '}';
+                ", daysSpentTesting=" + daysSpentTesting +
+                ", isFinished=" + isFinished +
+                ", isAssigned=" + isAssigned +
+                ", timeRemaining=" + timeRemaining +
+                ", daysAggreedToFinish=" + daysAggreedToFinish +
+                '}' + "\n";
     }
 
     public String getCompleteness() {

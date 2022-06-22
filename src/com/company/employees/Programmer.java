@@ -7,18 +7,16 @@ import java.util.LinkedList;
 public class Programmer extends Employee{
 
     public LinkedList<String> skills;
+    public boolean alreadyWorkedToday;
 
 
     public Programmer(String typeOfEmployee, Double salary) {
         super(typeOfEmployee, salary);
-
-
-    }
-
-    @Override
-    public void customerSeeking(ProjectGenerator projects) {
+    this.alreadyWorkedToday = false;
 
     }
+
+
 
 
 }

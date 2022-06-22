@@ -29,7 +29,8 @@ public class Sales extends Employee {
     public void customerSeeking(ProjectGenerator projects) {
         if (daysOfSeekingCustomers == 5) {
             daysOfSeekingCustomers = 0;
-            projects.addProjectToList();
+
+            projects.addProjectToList(this);
 
         } else {
             daysOfSeekingCustomers += 1;

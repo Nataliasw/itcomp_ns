@@ -1,16 +1,15 @@
 package com.company;
 
 
-import com.company.employees.Programmer;
-import com.company.employees.Sales;
-import com.company.employees.Tester;
+import com.company.employees.*;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class Player {
-    static final Double DEFAULT_MONEY = 2000.0;
+    static final Double DEFAULT_MONEY = 20000.0;
     static final int DEFAULT_DAYS_SPENT = 0;
     static final String DEFAULT_MONTH = "01";
     public Double money;
@@ -22,6 +21,8 @@ public class Player {
     public String currentMonth;
     public LinkedList<Project> ongoingProjects;
     public int daysOfSeekingCustomers;
+    public LinkedList<Employee> listOfAvailableEmployees;
+    public LinkedList<Freelancer> listOfFreelancerEmp;
 
     public Player() {
         this.money = DEFAULT_MONEY;
@@ -31,6 +32,10 @@ public class Player {
         this.currentMonth = DEFAULT_MONTH;
         this.ongoingProjects = new LinkedList<Project>();
         this.daysOfSeekingCustomers = 5;
+        this.listOfProgrammerEmp = new LinkedList<Programmer>();
+        this.listOfTesterEmp = new LinkedList<Tester>();
+        this.listOfAvailableEmployees = new LinkedList<Employee>();
+        this.listOfFreelancerEmp = new LinkedList<Freelancer>();
     }
 
     public Double getDefaultMoneyValue() {
@@ -71,6 +76,7 @@ public class Player {
             Project projectToAdd = projects.projectListCurrent.get(projectNumber - 1);
             ongoingProjects.add(projectToAdd);
             projectToAdd.isAssigned = true;
+            projectToAdd.timeRemaining = projectToAdd.getTimeRequired();
             projectToAdd.setReturnDate(date);
             System.out.println("Successfully added the project " + projectToAdd +
                     " to your ongoing projects.");
@@ -109,6 +115,10 @@ public class Player {
     }
 
     public String giveBackFinishedProject(Project project, Date today, Customer customer) {
+        boolean cannotBeBroken = false;
+        if(listOfTesterEmp.size() >= 1 && listOfProgrammerEmp.size() >= 3){
+            cannotBeBroken = true;
+        }
         if(customer.customerName.equals("test")){
             System.out.println("Customer name is not correct");
             return "Aborting";
@@ -161,22 +171,23 @@ public class Player {
                         this.money -= project.penalty;
                         System.out.println(this.money);
                     }
-                    if (chanceProjectIsNotWorking < 0.95) {
-                        System.out.println("You gave back working project");
-                        project.willReceiveMoney = true;
-                    } else {
-
-                        System.out.println("You gave back project that doesn't work!");
-                        double chanceToLoseContract = Math.random();
-                        if (chanceToLoseContract < 0.5) {
-                            System.out.println("You've lost your contract and will not receive any money!");
-                            project.willReceiveMoney = false;
-                        } else {
-                            System.out.println("You will get your money anyway");
+                    if(!cannotBeBroken) {
+                        if (chanceProjectIsNotWorking < 0.95) {
+                            System.out.println("You gave back working project");
                             project.willReceiveMoney = true;
+                        } else {
+
+                            System.out.println("You gave back project that doesn't work!");
+                            double chanceToLoseContract = Math.random();
+                            if (chanceToLoseContract < 0.5) {
+                                System.out.println("You've lost your contract and will not receive any money!");
+                                project.willReceiveMoney = false;
+                            } else {
+                                System.out.println("You will get your money anyway");
+                                project.willReceiveMoney = true;
+                            }
                         }
                     }
-
 
                 }
                 case "Skrwl" -> {
@@ -198,17 +209,18 @@ public class Player {
                         project.daysToPay = 1;
                         project.willReceiveMoney = true;
                     }
-                    if (chanceProjectIsNotWorking < 0.95) {
-                        System.out.println("You gave back working project");
-                        project.willReceiveMoney = true;
-                    } else {
-                        System.out.println("You gave back project that doesn't work!");
+                    if(!cannotBeBroken) {
+                        if (chanceProjectIsNotWorking < 0.95) {
+                            System.out.println("You gave back working project");
+                            project.willReceiveMoney = true;
+                        } else {
+                            System.out.println("You gave back project that doesn't work!");
 
-                        System.out.println("You've lost your contract and will not receive any money!");
-                        project.willReceiveMoney = false;
+                            System.out.println("You've lost your contract and will not receive any money!");
+                            project.willReceiveMoney = false;
 
+                        }
                     }
-
                 }
             }
 
@@ -217,6 +229,40 @@ public class Player {
         return "That is it for today!";
     }
 
+    public void hireEmployee(Employee emp){
+        emp.isEmployed = true;
+        if(Objects.equals(emp.typeOfEmployee, "Programmer")){
+            this.listOfProgrammerEmp.add((Programmer) emp);
+        } else if(Objects.equals(emp.typeOfEmployee, "Tester")){
+            this.listOfTesterEmp.add((Tester) emp);
+        } else if(Objects.equals(emp.typeOfEmployee, "Sales")){
+            this.listOfSalesEmp.add((Sales) emp);
+        } else if(Objects.equals(emp.typeOfEmployee, "Freelancer")){
+            this.listOfFreelancerEmp.add((Freelancer) emp);
+            System.out.println("You hired a Freelancer. They will only work for you for 30 days, then you gonna pay them and will have to rehire them.");
+        }
+        else {
+            System.out.println("uncorrect employee type.");
+        }
+
+    }
+    public void getRidOf(Employee emp){
+        emp.isEmployed = false;
+        if(Objects.equals(emp.typeOfEmployee, "Programmer")){
+            this.listOfProgrammerEmp.remove((Programmer) emp);
+        } else if(Objects.equals(emp.typeOfEmployee, "Tester")){
+            this.listOfTesterEmp.remove((Tester) emp);
+        } else if(Objects.equals(emp.typeOfEmployee, "Sales")){
+            this.listOfSalesEmp.remove((Sales) emp);
+        } else if(Objects.equals(emp.typeOfEmployee, "Freelancer")){
+            this.listOfFreelancerEmp.remove((Freelancer) emp);
+
+        }
+        else {
+            System.out.println("uncorrect employee type.");
+        }
+
+    }
 
 //    var d = Math.random();
 //if (d < 0.5)
