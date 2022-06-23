@@ -89,7 +89,7 @@ public class ProjectGenerator {
         for(int i = 0; projectListCurrent.size() < 3 ; i++){
             int int_random = rand.nextInt(upperbound);
             Project projectToAdd = projectListAll.get(int_random);
-            if(projectToAdd.level.equals("medium") || projectToAdd.level.equals("easy")) {
+            if(projectToAdd.level.equals("medium") || projectToAdd.level.equals("easy") && !projectListCurrent.contains(projectToAdd)) {
                 projectListCurrent.add(projectToAdd);
                 projectToAdd.projectNumber = projectListCurrent.size() ;
 

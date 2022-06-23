@@ -11,14 +11,16 @@ import java.util.concurrent.TimeUnit;
 public class Player {
     static final Double DEFAULT_MONEY = 20000.0;
     static final int DEFAULT_DAYS_SPENT = 0;
-    static final String DEFAULT_MONTH = "01";
+    static final int DEFAULT_MONTH = 0;
     public Double money;
     public LinkedList<Project> fullyDoneAndPaidProjects;
+    public LinkedList<Project> fullyDoneNotPaidProjects;
     public LinkedList<Sales> listOfSalesEmp;
     public LinkedList<Programmer> listOfProgrammerEmp;
     public LinkedList<Tester> listOfTesterEmp;
-    public int daysSpentOnZus;
-    public String currentMonth;
+    private int daysSpentOnZus;
+    private int currentMonth;
+    private int moneyEarnedThisMonth;
     public LinkedList<Project> ongoingProjects;
     public int daysOfSeekingCustomers;
     public LinkedList<Employee> listOfAvailableEmployees;
@@ -36,6 +38,7 @@ public class Player {
         this.listOfTesterEmp = new LinkedList<Tester>();
         this.listOfAvailableEmployees = new LinkedList<Employee>();
         this.listOfFreelancerEmp = new LinkedList<Freelancer>();
+        this.fullyDoneNotPaidProjects = new LinkedList<Project>();
     }
 
     public Double getDefaultMoneyValue() {
@@ -54,6 +57,22 @@ public class Player {
                 "7 - lay off employee \n" +
                 "8 - spend your day doing accounting \n" +
                 "9 - check your stats");
+    }
+
+    public void resetNextMonth(DateCalendar date){
+
+        if(this.currentMonth != date.getMonth()){
+            System.out.println("Its new month, remember to spent at least 2 days on accounting!");
+            this.currentMonth = date.getMonth();
+            this.daysSpentOnZus = 0;
+            System.out.println("It next month, you have to pay your taxes!");
+            System.out.println(this.money);
+            System.out.println("- " + this.moneyEarnedThisMonth);
+            this.money -= this.moneyEarnedThisMonth;
+            this.moneyEarnedThisMonth =0;
+            System.out.println(this.money);
+
+        }
     }
 
 
@@ -103,6 +122,7 @@ public class Player {
     }
 
     public void spendDayForAccounting() {
+
         this.daysSpentOnZus += 1;
         System.out.println("You have spend now " + this.daysSpentOnZus + " on accounting");
 
@@ -110,15 +130,12 @@ public class Player {
 
     public void testCode(Project project) {
 
-        System.out.println("You spend the day for testing your code for project \t" + project);
+        System.out.println("You spend the day on testing your code for project \t" + project);
 
     }
 
     public String giveBackFinishedProject(Project project, Date today, Customer customer) {
-        boolean cannotBeBroken = false;
-        if(listOfTesterEmp.size() >= 1 && listOfProgrammerEmp.size() >= 3){
-            cannotBeBroken = true;
-        }
+        boolean cannotBeBroken = listOfTesterEmp.size() >= 1 && listOfProgrammerEmp.size() >= 3;
         if(customer.customerName.equals("test")){
             System.out.println("Customer name is not correct");
             return "Aborting";
@@ -139,6 +156,7 @@ public class Player {
 
                 case "Chill" -> {
                     project.willReceiveMoney = true;
+                    fullyDoneNotPaidProjects.add(project);
                     if (project.returnDate.before(today)) {
 
                         if (diff > 0 && diff <= 7) {
@@ -164,6 +182,7 @@ public class Player {
                 case "Demanding" -> {
 
                     project.daysToPay = 1;
+                    this.fullyDoneNotPaidProjects.add(project);
 
                     if (project.returnDate.before(today)) {
                         System.out.println("You gave back the project late, you will pay penalty");
@@ -191,6 +210,7 @@ public class Player {
 
                 }
                 case "Skrwl" -> {
+                    this.fullyDoneNotPaidProjects.add(project);
                     if (project.returnDate.before(today)) {
                         System.out.println("You gave back the project late, you will pay penalty");
                         System.out.println(this.money + " - " + project.penalty);
@@ -242,7 +262,7 @@ public class Player {
             System.out.println("You hired a Freelancer. They will only work for you for 30 days, then you gonna pay them and will have to rehire them.");
         }
         else {
-            System.out.println("uncorrect employee type.");
+            System.out.println("not correct employee type.");
         }
 
     }
@@ -264,21 +284,18 @@ public class Player {
 
     }
 
-//    var d = Math.random();
-//if (d < 0.5)
-//            // 50% chance of being here
-//            else if (d < 0.7)
-//            // 20% chance of being here
-//            else
-//    // 30% chance of being here
+    public void receiveMoney(){
+        for(Project p : this.fullyDoneNotPaidProjects){
+            if(p.willReceiveMoney && p.daysToPay <= 0){
+                this.fullyDoneNotPaidProjects.remove(p);
+                System.out.println("You just got paid! +"+ p.value );
 
-    // 1podpisać umowę na realizację jednego z dostępnych projektów - DONE
-//        2przeznaczyć dzień na szukanie klientów (każde 5 dni to jeden nowy dostępny projekt)
-//        3przeznaczyć dzień na programowanie
-//        4przeznaczyć dzień na testowanie (możesz testować własny kod, kod podwykonawców i kod pracowników)
-//        5oddać gotowy projekt klientowi
-//        6zatrudnić nowego pracownika
-//        7zwolnić pracownika
-//        8przeznaczyć dzień na rozliczenia z urzędami (jeśli nie poświęcisz na to 2 dni w miesiącu ZUS wjeżdża
+                this.money += p.value;
+                this.fullyDoneAndPaidProjects.add(p);
+            }
+        }
+    }
+
+
 }
 

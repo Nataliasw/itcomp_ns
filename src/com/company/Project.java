@@ -18,6 +18,7 @@ public class Project {
     public int daysSpentTesting;
     public boolean isFinished;
     public boolean isAssigned;
+    public boolean isPaidfor;
     public int timeRemaining;
     public int daysAggreedToFinish;
 
@@ -34,6 +35,7 @@ public class Project {
         this.isAssigned = false;
         this.daysSpentTesting = 0;
         this.daysAggreedToFinish = daysAggreedToFinish;
+        this.isPaidfor = false;
 
 
     }

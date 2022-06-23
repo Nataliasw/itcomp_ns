@@ -45,9 +45,9 @@ public class ItGame {
         return skills;
     }
 
-    public Freelancer generateFreelancer(String name, Double salary, String type) {
+    public Freelancer generateFreelancer(int number, String name, Double salary, String type) {
 
-        Freelancer freelancer = new Freelancer("Freelancer", salary, type, name);
+        Freelancer freelancer = new Freelancer(number, "Freelancer", salary, type, name);
         freelancer.generateSkills();
         return freelancer;
     }
@@ -133,10 +133,10 @@ public class ItGame {
                         int day = project.timePerProjectPart.get(skill);
                         if (day != 0) {
                             double risk = Math.random();
-                            if(risk < 0.02){
+                            if (risk < 0.02) {
                                 System.out.println("One of your programmers call in sick!");
-                            } else{
-                            project.timePerProjectPart.put(skill, day - 1);
+                            } else {
+                                project.timePerProjectPart.put(skill, day - 1);
                             }
                             prog.alreadyWorkedToday = true;
                         }
@@ -156,7 +156,7 @@ public class ItGame {
     public String freelancersWorking(Player player, DateCalendar date) {
 
 
-        if (date.getDayOfWeek() >= 5) {
+        if (date.getDayOfWeek() > 5) {
             return "Its weekend";
         }
         if (player.listOfFreelancerEmp.size() == 0) {
@@ -223,9 +223,9 @@ public class ItGame {
         if (player.fullyDoneAndPaidProjects.size() < 3) {
             return this.gameOver;
         }
-        if(player.money <=0.0){
+        if (player.money <= 0.0) {
             this.gameOver = true;
-            System.out.println("You have no money and lost!");
+            System.out.println("You have no money! You lost!");
         }
 
         if (player.money > player.getDefaultMoneyValue()) {
@@ -248,9 +248,9 @@ public class ItGame {
         customers.add(fernweh);
         customers.add(karmelkowo);
 //Generate freelancers
-        Freelancer adam = generateFreelancer("Adam", 1500.0, "Best");
-        Freelancer betty = generateFreelancer("Betty", 1000.0, "Good");
-        Freelancer jack = generateFreelancer("Jack", 1000.0, "Meh");
+        Freelancer adam = generateFreelancer(1, "Adam", 1500.0, "Best");
+        Freelancer betty = generateFreelancer(2, "Betty", 1000.0, "Good");
+        Freelancer jack = generateFreelancer(3, "Jack", 1000.0, "Meh");
         LinkedList<Freelancer> freelancers = new LinkedList<Freelancer>();
         freelancers.add(adam);
         freelancers.add(betty);
@@ -276,6 +276,16 @@ public class ItGame {
 
         while (!gameOver) {
 //Updates
+            player.resetNextMonth(date);
+
+            if (player.fullyDoneNotPaidProjects.size() > 0) {
+                for (Project p : player.fullyDoneNotPaidProjects) {
+                    if (p.daysToPay > 0) {
+                        p.daysToPay -= 1;
+                    }
+                }
+            }
+            player.receiveMoney();
             checkIfAddNewEmployeeToList(player, date, listOfEmployees);
             if (player.listOfProgrammerEmp.size() > 0) {
                 for (Programmer p : player.listOfProgrammerEmp) {
@@ -313,7 +323,7 @@ public class ItGame {
                 player.listOfFreelancerEmp.removeIf(f -> f.daysWorked > 30);
                 for (Freelancer f : player.listOfFreelancerEmp) {
                     f.daysWorked += 1;
-                    if(f.daysWorked ==30){
+                    if (f.daysWorked == 30) {
                         player.money -= f.salary;
                         player.money -= 300;
                         System.out.println("You just paid vacancy costs, insurance and tax");
@@ -378,8 +388,9 @@ public class ItGame {
                     Thread.sleep(1000);
                     System.out.println("Which project would you like to sign? \n" +
                             projects.printCurrentProjects());
-                    String projectNumber = myObj.nextLine();
-                    player.signProject(projects, Integer.parseInt(projectNumber), date);
+                    int projectNumber = Integer.parseInt(myObj.nextLine());
+
+                    player.signProject(projects,projectNumber , date);
 
                 }
                 case "2" -> player.customerSeeking(projects);
@@ -428,26 +439,26 @@ public class ItGame {
                 case "7" -> {
 
                     System.out.println("Who you want ot laid off?");
-                    switch (myObj.nextLine()){
-                        case "programmer" ->{
+                    switch (myObj.nextLine()) {
+                        case "programmer" -> {
                             System.out.println("Which programmer? " + player.listOfProgrammerEmp);
                             int empNumber = Integer.parseInt(myObj.nextLine());
-                            player.getRidOf(player.listOfProgrammerEmp.get(empNumber -1));
+                            player.getRidOf(player.listOfProgrammerEmp.get(empNumber - 1));
                         }
-                        case "sales" ->{
+                        case "sales" -> {
                             System.out.println("Which salesperson? " + player.listOfSalesEmp);
                             int empNumber = Integer.parseInt(myObj.nextLine());
-                            player.getRidOf(player.listOfSalesEmp.get(empNumber -1));
+                            player.getRidOf(player.listOfSalesEmp.get(empNumber - 1));
                         }
-                        case "tester" ->{
+                        case "tester" -> {
                             System.out.println("Which tester? " + player.listOfTesterEmp);
                             int empNumber = Integer.parseInt(myObj.nextLine());
-                            player.getRidOf(player.listOfTesterEmp.get(empNumber -1));
+                            player.getRidOf(player.listOfTesterEmp.get(empNumber - 1));
                         }
-                        case "freelancer" ->{
+                        case "freelancer" -> {
                             System.out.println("Which freelancer? " + player.listOfFreelancerEmp);
                             int empNumber = Integer.parseInt(myObj.nextLine());
-                            player.getRidOf(player.listOfFreelancerEmp.get(empNumber -1));
+                            player.getRidOf(player.listOfFreelancerEmp.get(empNumber - 1));
                         }
 
 

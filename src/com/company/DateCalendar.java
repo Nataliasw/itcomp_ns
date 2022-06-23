@@ -26,10 +26,14 @@ public class DateCalendar {
     }
 
     public int getDayOfWeek() {
-        int day = dateCalendar.get(Calendar.DAY_OF_WEEK);
 
-        return day;
+        return dateCalendar.get(Calendar.DAY_OF_WEEK);
     }
+
+    public int getMonth(){
+        return dateCalendar.get(Calendar.MONTH);
+    }
+
     public void changeDate(){
         dateCalendar.add(Calendar.DATE, 1);
         tour += 1;
@@ -40,5 +44,8 @@ public class DateCalendar {
     }
 
 
-
+    @Override
+    public String toString() {
+        return dateCalendar + " " +" " + date1;
+    }
 }
