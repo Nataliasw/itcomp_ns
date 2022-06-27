@@ -10,7 +10,9 @@ public class Sales extends Employee {
     public LinkedList<Project> listOfProjectsFound;
 
     public Sales(String typeOfEmployee, Double salary) {
+
         super(typeOfEmployee, salary);
+        this.listOfProjectsFound = new LinkedList<Project>();
     }
 
     @Override

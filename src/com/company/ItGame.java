@@ -97,13 +97,15 @@ public class ItGame {
     }
 
     public void checkIfAddNewEmployeeToList(Player player, DateCalendar date, LinkedList<Employee> listOfEmployees) {
-        if (date.tour % 3 == 0 && player.listOfAvailableEmployees.size() < 12) {
+        boolean isAdded = false;
+        if (date.tour % 3 == 0 && player.listOfAvailableEmployees.size() <= 12) {
             System.out.println("You spent some money on Employeeseeking");
             player.money -= 100.0;
             Random rand = new Random();
             int upperbound = 12;
 
-            boolean isAdded = false;
+
+
             while (!isAdded) {
 
                 int int_random = rand.nextInt(upperbound);
@@ -118,7 +120,7 @@ public class ItGame {
     }
 
     public String programmersAreWorking(Player player, DateCalendar date) {
-        if (date.getDayOfWeek() >= 5) {
+        if (date.getDayOfWeek() > 6  || date.getDayOfWeek() == 0) {
             return "Its weekend";
         }
         if (player.listOfProgrammerEmp.size() == 0) {
@@ -156,7 +158,7 @@ public class ItGame {
     public String freelancersWorking(Player player, DateCalendar date) {
 
 
-        if (date.getDayOfWeek() > 5) {
+        if (date.getDayOfWeek() > 6 || date.getDayOfWeek() == 0) {
             return "Its weekend";
         }
         if (player.listOfFreelancerEmp.size() == 0) {
@@ -263,7 +265,7 @@ public class ItGame {
         LinkedList<Employee> listOfEmployees = generateListOfEmployees();
         Random rand = new Random();
         int upperbound = 12;
-        for (int i = 0; player.listOfAvailableEmployees.size() == 3; i++) {
+        for (int i = 0; player.listOfAvailableEmployees.size() < 3; i++) {
             int int_random = rand.nextInt(upperbound);
             Employee emp = listOfEmployees.get(int_random);
             if (!player.listOfAvailableEmployees.contains(emp)) {
@@ -429,16 +431,29 @@ public class ItGame {
                 }
                 case "6" -> {
                     Thread.sleep(1000);
-                    System.out.println("Which project would you like to give back? \n" +
-                            player.listOfAvailableEmployees);
+                    System.out.println("Would you like to hire a freelancer? 0 = yes 1 = no " + freelancers);
+                    int yesno = Integer.parseInt(myObj.nextLine());
+                    if(yesno == 1) {
+                        System.out.println("Which employee would you like to hire? \n" +
+                                player.listOfAvailableEmployees);
 
-                    int empNumber = Integer.parseInt(myObj.nextLine());
-                    player.hireEmployee(player.listOfAvailableEmployees.get(empNumber - 1));
+                        int empNumber = Integer.parseInt(myObj.nextLine());
+                        player.hireEmployee(player.listOfAvailableEmployees.get(empNumber - 1));
+                    } else if(yesno == 0){
+                        System.out.println("Which freelancer would you like to hire? \n" +
+                                freelancers);
+
+                        int empNumber = Integer.parseInt(myObj.nextLine());
+                        player.hireEmployee(freelancers.get(empNumber-1));
+                    } else{
+                        System.out.println("incorrect number provided");
+                        continue;
+                    }
 
                 }
                 case "7" -> {
 
-                    System.out.println("Who you want ot laid off?");
+                    System.out.println("Who you want ot laid off? Write: programmer, sales, tester, freelancer or abort to continue");
                     switch (myObj.nextLine()) {
                         case "programmer" -> {
                             System.out.println("Which programmer? " + player.listOfProgrammerEmp);
@@ -459,6 +474,10 @@ public class ItGame {
                             System.out.println("Which freelancer? " + player.listOfFreelancerEmp);
                             int empNumber = Integer.parseInt(myObj.nextLine());
                             player.getRidOf(player.listOfFreelancerEmp.get(empNumber - 1));
+                        }
+                        case "abort" ->{
+                            System.out.println("You decided to not fire anyone");
+
                         }
 
 

@@ -15,9 +15,10 @@ public class Main {
         //new SimpleDateFormat("dd/MM/yyyy").parse("01/30/2020")
 ItGame game = new ItGame();
 
-     game.startGame();
+    game.startGame();
 
-
+//DateCalendar date = new DateCalendar();
+     //   System.out.println(date.getDayOfWeek());
 
     }
 }

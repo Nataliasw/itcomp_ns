@@ -42,23 +42,23 @@ public class Employee {
                 '}';
     }
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Employee emp = (Employee) o;
-        return typeOfEmployee.equals(emp.typeOfEmployee);
-
-    }
+//    @Override
+//    public int hashCode() {
+//        return super.hashCode();
+//    }
+//
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) {
+//            return true;
+//        }
+//        if (o == null || getClass() != o.getClass()) {
+//            return false;
+//        }
+//        Employee emp = (Employee) o;
+//        return typeOfEmployee.equals(emp.typeOfEmployee);
+//
+//    }
 
     public void customerSeeking(ProjectGenerator projects){
 

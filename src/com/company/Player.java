@@ -33,7 +33,7 @@ public class Player {
         this.daysSpentOnZus = DEFAULT_DAYS_SPENT;
         this.currentMonth = DEFAULT_MONTH;
         this.ongoingProjects = new LinkedList<Project>();
-        this.daysOfSeekingCustomers = 5;
+        this.daysOfSeekingCustomers = 0;
         this.listOfProgrammerEmp = new LinkedList<Programmer>();
         this.listOfTesterEmp = new LinkedList<Tester>();
         this.listOfAvailableEmployees = new LinkedList<Employee>();
@@ -87,6 +87,34 @@ public class Player {
         for (Project p : projects.projectListCurrent) {
             System.out.println(p);
 
+        }
+        System.out.println("Fully done not paid projects:");
+        for(Project p: this.fullyDoneNotPaidProjects){
+            System.out.println(p);
+        }
+        System.out.println("Fully done paid projects:");
+        for(Project p: this.fullyDoneAndPaidProjects){
+            System.out.println(p);
+        }
+        System.out.println("List of available employees:");
+        for(Employee e: this.listOfAvailableEmployees){
+            System.out.println(e);
+        }
+        System.out.println("Sales employees:");
+        for(Sales s: this.listOfSalesEmp){
+            System.out.println(s);
+        }
+        System.out.println("Programmers:");
+        for(Programmer p: this.listOfProgrammerEmp){
+            System.out.println(p);
+        }
+        System.out.println("Testers:");
+        for(Tester t: this.listOfTesterEmp){
+            System.out.println(t);
+        }
+        System.out.println("Freelancers:");
+        for(Freelancer f: this.listOfFreelancerEmp){
+            System.out.println(f);
         }
     }
 
@@ -252,10 +280,13 @@ public class Player {
     public void hireEmployee(Employee emp){
         emp.isEmployed = true;
         if(Objects.equals(emp.typeOfEmployee, "Programmer")){
+            System.out.println("You hired a programmer.");
             this.listOfProgrammerEmp.add((Programmer) emp);
         } else if(Objects.equals(emp.typeOfEmployee, "Tester")){
+            System.out.println("You hired a tester.");
             this.listOfTesterEmp.add((Tester) emp);
         } else if(Objects.equals(emp.typeOfEmployee, "Sales")){
+            System.out.println("You hired a salesperson.");
             this.listOfSalesEmp.add((Sales) emp);
         } else if(Objects.equals(emp.typeOfEmployee, "Freelancer")){
             this.listOfFreelancerEmp.add((Freelancer) emp);
