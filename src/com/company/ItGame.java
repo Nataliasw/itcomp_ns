@@ -459,21 +459,29 @@ public class ItGame {
                             System.out.println("Which programmer? " + player.listOfProgrammerEmp);
                             int empNumber = Integer.parseInt(myObj.nextLine());
                             player.getRidOf(player.listOfProgrammerEmp.get(empNumber - 1));
+                            player.money -= 200;
+                            System.out.println("You laid off an employee but it also costs, you paid 200 for that.");
                         }
                         case "sales" -> {
                             System.out.println("Which salesperson? " + player.listOfSalesEmp);
                             int empNumber = Integer.parseInt(myObj.nextLine());
                             player.getRidOf(player.listOfSalesEmp.get(empNumber - 1));
+                            player.money -= 200;
+                            System.out.println("You laid off an employee but it also costs, you paid 200 for that.");
                         }
                         case "tester" -> {
                             System.out.println("Which tester? " + player.listOfTesterEmp);
                             int empNumber = Integer.parseInt(myObj.nextLine());
                             player.getRidOf(player.listOfTesterEmp.get(empNumber - 1));
+                            player.money -= 200;
+                            System.out.println("You laid off an employee but it also costs, you paid 200 for that.");
                         }
                         case "freelancer" -> {
                             System.out.println("Which freelancer? " + player.listOfFreelancerEmp);
                             int empNumber = Integer.parseInt(myObj.nextLine());
                             player.getRidOf(player.listOfFreelancerEmp.get(empNumber - 1));
+                            player.money -= 200;
+                            System.out.println("You laid off an employee but it also costs, you paid 200 for that.");
                         }
                         case "abort" ->{
                             System.out.println("You decided to not fire anyone");
@@ -482,8 +490,7 @@ public class ItGame {
 
 
                     }
-                    player.money -= 200;
-                    System.out.println("You laid off an employee but it also costs, you paid 200 for that.");
+
 
                 }
                 case "8" -> {
